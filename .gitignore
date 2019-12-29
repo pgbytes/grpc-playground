@@ -1,0 +1,11 @@
+vendor
+.idea
+**/*~
+**/*.pb.go
+service/service
+client/client
+_config/gce-service-account.json
+_config/config.yaml
+_config/secret_config.yaml
+_deployment/helm-chart/**/compiled_template.yaml
+build
