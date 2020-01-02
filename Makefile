@@ -1,6 +1,6 @@
 SERVICE_TARGET=echo
-PROTO_SOURCE_DIR=proto/echo
-PROTO_GENERATED_DIR=proto/echo
+PROTO_SOURCE_DIR=proto/chat
+PROTO_GENERATED_DIR=proto/chat
 
 SERVICE_GO_SOURCES:=$(shell find ./service -iname "*.go")
 
