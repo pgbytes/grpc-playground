@@ -127,6 +127,7 @@ func (c *ChatServer) Chat(stream chat.Chat_ChatServer) error {
 		}
 	}
 	c.connLock.Unlock()
+	fmt.Printf("%s disconnected \n", "user")
 
 	return err
 }
