@@ -1,42 +1,36 @@
-SERVICE_TARGET=echo
-PROTO_SOURCE_DIR=proto/chat
-PROTO_GENERATED_DIR=proto/chat
+SHELL := /bin/bash -o pipefail
 
-SERVICE_GO_SOURCES:=$(shell find ./service -iname "*.go")
+UNAME_OS := $(shell uname -s)
+UNAME_ARCH := $(shell uname -m)
 
-PROTO_SOURCES:=$(shell find ${PROTO_SOURCE_DIR} -iname "*.proto")
-PROTO_GENERATED:=$(subst $(PROTO_SOURCE_DIR),$(PROTO_GENERATED_DIR),$(subst .proto,.pb.go,$(PROTO_SOURCES)))
+TMP_BASE := .tmp
+TMP := $(TMP_BASE)/$(UNAME_OS)/$(UNAME_ARCH)
+TMP_BIN = $(TMP)/bin
+TMP_VERSIONS := $(TMP)/versions
 
-.PHONY: all
-all: $(SERVICE_TARGET)
+export GO111MODULE := on
+export GOBIN := $(abspath $(TMP_BIN))
+export PATH := $(GOBIN):$(PATH)
 
-$(SERVICE_TARGET): $(SERVICE_GO_SOURCES) $(PROTO_GENERATED)
-	@echo "Compiling $@..."
-	cd service; go build; go vet ./...
+# This is the only variable that ever should change.
+# This can be a branch, tag, or commit.
+# When changed, the given version of Prototool will be installed to
+# .tmp/$(uname -s)/(uname -m)/bin/prototool
+PROTOTOOL_VERSION := v1.9.0
 
-$(PROTO_GENERATED): $(PROTO_SOURCES)
-	@echo "Generating ${PROTO_SOURCE_DIR} sources..."
-	protoc --proto_path=${PROTO_SOURCE_DIR} ${PROTO_SOURCE_DIR}/*.proto --go_out=plugins=grpc:${PROTO_SOURCE_DIR}
+PROTOTOOL := $(TMP_VERSIONS)/prototool/$(PROTOTOOL_VERSION)
+$(PROTOTOOL):
+	$(eval PROTOTOOL_TMP := $(shell mktemp -d))
+	cd $(PROTOTOOL_TMP); go get github.com/uber/prototool/cmd/prototool@$(PROTOTOOL_VERSION)
+	@rm -rf $(PROTOTOOL_TMP)
+	@rm -rf $(dir $(PROTOTOOL))
+	@mkdir -p $(dir $(PROTOTOOL))
+	@touch $(PROTOTOOL)
 
-proto-gen: $(PROTO_GENERATED)
-
-# Build docker image, tag it, and push it to the docker registry.
-# This assumes that you have run "make install"
-# and moved the executable. For instance:
-# make install
-# mv $GOPATH/bin/service _images/service/
-docker-build-and-push: _images/service/service
-	cd _images/service/; ./build.sh
-
-# Install binaries at $GOPATH/bin.	# This will pick up all Go packages in the project and build and
-# install them.  Everything that is not a Go package will be ignored.
-install: ${SERVICE_TARGET}
-	go install bitbucket.org/egym-com/adonis-gateway/service
-
-vet: $(SERVICE_TARGET)
-	go vet ./service/...
-
-clean:
-	@echo "Cleaning.."
-	rm -f $(PROTO_GENERATED_D\IR)/*.go
-	cd service; go clean
+# proto is a target that uses prototool.
+# By depending on $(PROTOTOOL), prototool will be installed on the Makefile's path.
+# Since the path above has the temporary GOBIN at the front, this will use the
+# locally installed prototool.
+.PHONY: proto
+protogen: $(PROTOTOOL)
+	prototool generate

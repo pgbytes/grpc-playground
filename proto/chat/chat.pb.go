@@ -35,7 +35,7 @@ func (m *ChatMessage) Reset()         { *m = ChatMessage{} }
 func (m *ChatMessage) String() string { return proto.CompactTextString(m) }
 func (*ChatMessage) ProtoMessage()    {}
 func (*ChatMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_chat_f1e9904320e4f401, []int{0}
+	return fileDescriptor_chat_387f734b07ca7a33, []int{0}
 }
 func (m *ChatMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChatMessage.Unmarshal(m, b)
@@ -177,9 +177,9 @@ var _Chat_serviceDesc = grpc.ServiceDesc{
 	Metadata: "chat.proto",
 }
 
-func init() { proto.RegisterFile("chat.proto", fileDescriptor_chat_f1e9904320e4f401) }
+func init() { proto.RegisterFile("chat.proto", fileDescriptor_chat_387f734b07ca7a33) }
 
-var fileDescriptor_chat_f1e9904320e4f401 = []byte{
+var fileDescriptor_chat_387f734b07ca7a33 = []byte{
 	// 108 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4a, 0xce, 0x48, 0x2c,
 	0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x57, 0xb2, 0xe6, 0xe2, 0x76, 0xce, 0x48, 0x2c, 0xf1, 0x4d,
