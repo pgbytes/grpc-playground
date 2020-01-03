@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/panshul007/grpc-playground/proto/echo"
+	"github.com/panshul007/grpc-playground/api/echo"
 	"google.golang.org/grpc"
 	"net"
 )

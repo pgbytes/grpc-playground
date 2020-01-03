@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/panshul007/grpc-playground/proto/chat"
+	"github.com/panshul007/grpc-playground/api/chat"
 	"google.golang.org/grpc"
 	"io"
 	"net"

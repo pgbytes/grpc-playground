@@ -18,8 +18,7 @@ protoc:
   #includes:
   #  - ../../vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
   includes:
-    - proto/chat
-    - proto/echo
+    - proto
 
 
     # If not set, compile will fail if there are unused imports.
@@ -155,7 +154,7 @@ generate:
       # The path to output generated files to.
       # If the directory does not exist, it will be created when running generation.
       # This needs to be a relative path.
-      output: proto/
+      output: api/
 
       # Optional override for the plugin path. For example, if you set set path to
       # /usr/local/bin/gogo_plugin", prototool will add the
