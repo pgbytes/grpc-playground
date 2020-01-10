@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bitbucket.org/egym-com/grpc-playground/api/echo"
+	"bitbucket.org/egym-com/grpc-playground/testdata"
 	"context"
 	"crypto/tls"
 	"fmt"
-	"github.com/panshul007/grpc-playground/api/echo"
-	"github.com/panshul007/grpc-playground/testdata"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"

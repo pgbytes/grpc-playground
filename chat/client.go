@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bitbucket.org/egym-com/grpc-playground/api/chat"
 	"bufio"
 	"context"
 	"fmt"
-	"github.com/panshul007/grpc-playground/api/chat"
 	"google.golang.org/grpc"
 	"io"
 	"os"

@@ -1,4 +1,4 @@
-module github.com/panshul007/grpc-playground
+module bitbucket.org/egym-com/grpc-playground
 
 go 1.13
 
