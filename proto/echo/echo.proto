@@ -6,6 +6,11 @@ service EchoServer {
 
 message EchoRequest {
     string message = 1;
+    ChatMessage talk = 2;
+}
+
+message ChatMessage {
+    string text = 1;
 }
 
 message EchoResponse {

@@ -24,7 +24,7 @@ type EchoServer struct{}
 
 func (e *EchoServer) Echo(ctx context.Context, req *echo.EchoRequest) (*echo.EchoResponse, error) {
 	return &echo.EchoResponse{
-		Response: "My Echo: " + req.Message,
+		Response: fmt.Sprintf("My Echo: %s: %+v", req.Message, req.Talk),
 	}, nil
 }
 

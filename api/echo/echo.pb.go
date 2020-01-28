@@ -24,17 +24,18 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type EchoRequest struct {
-	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Message              string       `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Talk                 *ChatMessage `protobuf:"bytes,2,opt,name=talk,proto3" json:"talk,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
 func (m *EchoRequest) Reset()         { *m = EchoRequest{} }
 func (m *EchoRequest) String() string { return proto.CompactTextString(m) }
 func (*EchoRequest) ProtoMessage()    {}
 func (*EchoRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_echo_aec4bdfbe0b08ef7, []int{0}
+	return fileDescriptor_echo_f4d9394a0bb7a1f9, []int{0}
 }
 func (m *EchoRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EchoRequest.Unmarshal(m, b)
@@ -61,6 +62,51 @@ func (m *EchoRequest) GetMessage() string {
 	return ""
 }
 
+func (m *EchoRequest) GetTalk() *ChatMessage {
+	if m != nil {
+		return m.Talk
+	}
+	return nil
+}
+
+type ChatMessage struct {
+	Text                 string   `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ChatMessage) Reset()         { *m = ChatMessage{} }
+func (m *ChatMessage) String() string { return proto.CompactTextString(m) }
+func (*ChatMessage) ProtoMessage()    {}
+func (*ChatMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_echo_f4d9394a0bb7a1f9, []int{1}
+}
+func (m *ChatMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChatMessage.Unmarshal(m, b)
+}
+func (m *ChatMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChatMessage.Marshal(b, m, deterministic)
+}
+func (dst *ChatMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChatMessage.Merge(dst, src)
+}
+func (m *ChatMessage) XXX_Size() int {
+	return xxx_messageInfo_ChatMessage.Size(m)
+}
+func (m *ChatMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChatMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChatMessage proto.InternalMessageInfo
+
+func (m *ChatMessage) GetText() string {
+	if m != nil {
+		return m.Text
+	}
+	return ""
+}
+
 type EchoResponse struct {
 	Response             string   `protobuf:"bytes,1,opt,name=response,proto3" json:"response,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -72,7 +118,7 @@ func (m *EchoResponse) Reset()         { *m = EchoResponse{} }
 func (m *EchoResponse) String() string { return proto.CompactTextString(m) }
 func (*EchoResponse) ProtoMessage()    {}
 func (*EchoResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_echo_aec4bdfbe0b08ef7, []int{1}
+	return fileDescriptor_echo_f4d9394a0bb7a1f9, []int{2}
 }
 func (m *EchoResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EchoResponse.Unmarshal(m, b)
@@ -101,6 +147,7 @@ func (m *EchoResponse) GetResponse() string {
 
 func init() {
 	proto.RegisterType((*EchoRequest)(nil), "EchoRequest")
+	proto.RegisterType((*ChatMessage)(nil), "ChatMessage")
 	proto.RegisterType((*EchoResponse)(nil), "EchoResponse")
 }
 
@@ -176,17 +223,20 @@ var _EchoServer_serviceDesc = grpc.ServiceDesc{
 	Metadata: "echo/echo.proto",
 }
 
-func init() { proto.RegisterFile("echo/echo.proto", fileDescriptor_echo_aec4bdfbe0b08ef7) }
+func init() { proto.RegisterFile("echo/echo.proto", fileDescriptor_echo_f4d9394a0bb7a1f9) }
 
-var fileDescriptor_echo_aec4bdfbe0b08ef7 = []byte{
-	// 132 bytes of a gzipped FileDescriptorProto
+var fileDescriptor_echo_f4d9394a0bb7a1f9 = []byte{
+	// 177 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4f, 0x4d, 0xce, 0xc8,
-	0xd7, 0x07, 0x11, 0x7a, 0x05, 0x45, 0xf9, 0x25, 0xf9, 0x4a, 0xea, 0x5c, 0xdc, 0xae, 0xc9, 0x19,
+	0xd7, 0x07, 0x11, 0x7a, 0x05, 0x45, 0xf9, 0x25, 0xf9, 0x4a, 0x9e, 0x5c, 0xdc, 0xae, 0xc9, 0x19,
 	0xf9, 0x41, 0xa9, 0x85, 0xa5, 0xa9, 0xc5, 0x25, 0x42, 0x12, 0x5c, 0xec, 0xb9, 0xa9, 0xc5, 0xc5,
-	0x89, 0xe9, 0xa9, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x9c, 0x41, 0x30, 0xae, 0x92, 0x16, 0x17, 0x0f,
-	0x44, 0x61, 0x71, 0x41, 0x7e, 0x5e, 0x71, 0xaa, 0x90, 0x14, 0x17, 0x47, 0x11, 0x94, 0x0d, 0x55,
-	0x0a, 0xe7, 0x1b, 0x19, 0x73, 0x71, 0x81, 0xd4, 0x06, 0xa7, 0x16, 0x95, 0xa5, 0x16, 0x09, 0xa9,
-	0x72, 0xb1, 0x80, 0x2c, 0x14, 0xe2, 0xd1, 0x43, 0xb2, 0x49, 0x8a, 0x57, 0x0f, 0xd9, 0x38, 0x25,
-	0x86, 0x24, 0x36, 0xb0, 0x83, 0x8c, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x2d, 0x9d, 0x70, 0x82,
-	0xa3, 0x00, 0x00, 0x00,
+	0x89, 0xe9, 0xa9, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x9c, 0x41, 0x30, 0xae, 0x90, 0x02, 0x17, 0x4b,
+	0x49, 0x62, 0x4e, 0xb6, 0x04, 0x93, 0x02, 0xa3, 0x06, 0xb7, 0x11, 0x8f, 0x9e, 0x73, 0x46, 0x62,
+	0x89, 0x2f, 0x44, 0x2e, 0x08, 0x2c, 0xa3, 0xa4, 0xc8, 0xc5, 0x8d, 0x24, 0x28, 0x24, 0xc4, 0xc5,
+	0x52, 0x92, 0x5a, 0x51, 0x02, 0x35, 0x07, 0xcc, 0x56, 0xd2, 0xe2, 0xe2, 0x81, 0xd8, 0x56, 0x5c,
+	0x90, 0x9f, 0x57, 0x9c, 0x2a, 0x24, 0xc5, 0xc5, 0x51, 0x04, 0x65, 0x43, 0xd5, 0xc1, 0xf9, 0x46,
+	0xc6, 0x5c, 0x5c, 0x20, 0xb5, 0xc1, 0xa9, 0x45, 0x65, 0xa9, 0x45, 0x42, 0xaa, 0x5c, 0x2c, 0x20,
+	0x57, 0x0b, 0xf1, 0xe8, 0x21, 0x39, 0x57, 0x8a, 0x57, 0x0f, 0xd9, 0x38, 0x25, 0x86, 0x24, 0x36,
+	0xb0, 0xaf, 0x8c, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0xd1, 0x4a, 0x7f, 0x2a, 0xe8, 0x00, 0x00,
+	0x00,
 }
