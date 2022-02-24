@@ -1,15 +1,17 @@
 syntax = "proto3";
 
-service EchoServer {
-    rpc echo(EchoRequest) returns (EchoResponse) {}
+package grpc_playground.echo;
+
+service EchoService {
+    rpc Echo(EchoRequest) returns (EchoResponse) {}
 }
 
 message EchoRequest {
     string message = 1;
-    ChatMessage talk = 2;
+    Message talk = 2;
 }
 
-message ChatMessage {
+message Message {
     string text = 1;
 }
 

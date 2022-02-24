@@ -1,21 +1,22 @@
 package main
 
 import (
-	"bitbucket.org/egym-com/grpc-playground/api/chat"
 	"fmt"
-	"google.golang.org/grpc"
 	"io"
 	"net"
 	"sync"
+
+	"github.com/pgbytes/grpc-playground/api/chat"
+	"google.golang.org/grpc"
 )
 
 type Connection struct {
-	conn chat.Chat_ChatServer
+	conn chat.ChatService_ChatServer
 	send chan *chat.ChatMessage
 	quit chan struct{}
 }
 
-func NewConnection(conn chat.Chat_ChatServer) *Connection {
+func NewConnection(conn chat.ChatService_ChatServer) *Connection {
 	c := &Connection{
 		conn: conn,
 		send: make(chan *chat.ChatMessage),
@@ -108,7 +109,7 @@ func (c *ChatServer) start() {
 	}
 }
 
-func (c *ChatServer) Chat(stream chat.Chat_ChatServer) error {
+func (c *ChatServer) Chat(stream chat.ChatService_ChatServer) error {
 	conn := NewConnection(stream)
 
 	c.connLock.Lock()
@@ -140,7 +141,7 @@ func main() {
 
 	server := grpc.NewServer()
 	chatServer := newChatServer()
-	chat.RegisterChatServer(server, chatServer)
+	chat.RegisterChatServiceServer(server, chatServer)
 
 	fmt.Println("Serving chat server at port 8080")
 	err = server.Serve(lst)

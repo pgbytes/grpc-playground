@@ -1,13 +1,14 @@
 package main
 
 import (
-	"bitbucket.org/egym-com/grpc-playground/api/chat"
 	"bufio"
 	"context"
 	"fmt"
-	"google.golang.org/grpc"
 	"io"
 	"os"
+
+	"github.com/pgbytes/grpc-playground/api/chat"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -24,7 +25,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	chatClient := chat.NewChatClient(conn)
+	chatClient := chat.NewChatServiceClient(conn)
 	stream, err := chatClient.Chat(ctx)
 	if err != nil {
 		panic(err)

@@ -1,10 +1,11 @@
 package main
 
 import (
-	"bitbucket.org/egym-com/grpc-playground/api/echo"
-	"bitbucket.org/egym-com/grpc-playground/testdata"
 	"context"
 	"fmt"
+
+	"github.com/pgbytes/grpc-playground/api/echo"
+	"github.com/pgbytes/grpc-playground/testdata"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
@@ -49,7 +50,7 @@ func main() {
 	defer conn.Close()
 	fmt.Println("connection established to echo server at localhost:8080")
 
-	ec := echo.NewEchoServerClient(conn)
+	ec := echo.NewEchoServiceClient(conn)
 	resp, err := ec.Echo(ctx, &echo.EchoRequest{
 		Message: "Hello World!",
 	})

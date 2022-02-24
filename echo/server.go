@@ -1,18 +1,19 @@
 package main
 
 import (
-	"bitbucket.org/egym-com/grpc-playground/api/echo"
-	"bitbucket.org/egym-com/grpc-playground/testdata"
 	"context"
 	"crypto/tls"
 	"fmt"
+	"net"
+	"strings"
+
+	"github.com/pgbytes/grpc-playground/api/echo"
+	"github.com/pgbytes/grpc-playground/testdata"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
-	"net"
-	"strings"
 )
 
 var (
@@ -71,7 +72,7 @@ func main() {
 	server := grpc.NewServer(opts...)
 
 	echoServer := &EchoServer{}
-	echo.RegisterEchoServerServer(server, echoServer)
+	echo.RegisterEchoServiceServer(server, echoServer)
 
 	fmt.Println("Serving echo server at 8080")
 	err = server.Serve(lst)
