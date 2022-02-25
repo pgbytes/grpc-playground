@@ -6,9 +6,17 @@ service EchoService {
     rpc Echo(EchoRequest) returns (EchoResponse) {}
 }
 
+enum ErrorType {
+    ERROR_TYPE_UNSPECIFIED = 0;
+    ERROR_TYPE_UNAUTHENTICATED = 1;
+    ERROR_TYPE_BAD_REQUEST = 2;
+    ERROR_TYPE_PERMISSION_DENIED = 3;
+}
+
 message EchoRequest {
     string message = 1;
     Message talk = 2;
+    ErrorType errorType = 3;
 }
 
 message Message {
