@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/pgbytes/grpc-playground/api/echo"
+	"github.com/pgbytes/grpc-playground/api/go/echo"
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

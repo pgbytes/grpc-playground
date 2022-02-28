@@ -5,9 +5,11 @@ managed:
     default: github.com/pgbytes/grpc-playground/api
 plugins:
   - name: go
-    out: api
+    out: api/go
     opt: paths=source_relative
   - name: go-grpc
-    out: api
+    out: api/go
     opt: paths=source_relative,require_unimplemented_servers=false
     path: protoc-gen-go-grpc
+  - name: cpp
+    out: api/cpp

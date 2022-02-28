@@ -6,7 +6,7 @@ import (
 	"net"
 	"sync"
 
-	"github.com/pgbytes/grpc-playground/api/chat"
+	"github.com/pgbytes/grpc-playground/api/go/chat"
 	"google.golang.org/grpc"
 )
 

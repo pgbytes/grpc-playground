@@ -7,7 +7,7 @@ import (
 	"net"
 	"strings"
 
-	"github.com/pgbytes/grpc-playground/api/echo"
+	"github.com/pgbytes/grpc-playground/api/go/echo"
 	"github.com/pgbytes/grpc-playground/testdata"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
