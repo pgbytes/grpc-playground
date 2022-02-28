@@ -6,6 +6,7 @@ import (
 	"net"
 
 	"github.com/pgbytes/grpc-playground/api/echo"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -34,9 +35,20 @@ func generateErrorDetail(req *echo.EchoRequest) error {
 		return errUnauthenticated
 	case echo.ErrorType_ERROR_TYPE_PERMISSION_DENIED:
 		return errPermissionDenied
+	case echo.ErrorType_ERROR_TYPE_BAD_REQUEST:
+		return badRequestError()
 	default:
 		return errDefault
 	}
+}
+
+func badRequestError() error {
+	st := status.New(codes.InvalidArgument, "bad request")
+	st, err := st.WithDetails(&errdetails.BadRequest_FieldViolation{Field: "email", Description: "invalid format"})
+	if err != nil {
+		return err
+	}
+	return st.Err()
 }
 
 func main() {
