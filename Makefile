@@ -12,3 +12,9 @@ lint:
 
 tidy:
 	go mod tidy -go=1.17
+
+reflection-test:
+	go test ./reflection/... -v
+
+reflection-bench:
+	go test ./reflection/... -run=XXX -bench=. -v
