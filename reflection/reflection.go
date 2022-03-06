@@ -18,6 +18,7 @@ var (
 	errImmutableField       = fmt.Errorf("request object field is immutable")
 	errFieldNotFound        = fmt.Errorf("field not found in request object")
 	errFieldNotOfTypeString = fmt.Errorf("field is not of type string")
+	errNotAProto            = fmt.Errorf("request object is not a proto message")
 )
 
 // extractByReflection extract a field value from provided request using so reflection
@@ -82,4 +83,23 @@ func extractByProtoReflection(req interface{}) (string, bool) {
 		}
 	}
 	return "", false
+}
+
+// setByProtoReflection set provided string value to proto message request string field using proto reflect.
+func setByProtoReflection(req interface{}, valueToSet string) error {
+	// check if request is of type proto message
+	reqMessage, ok := req.(proto.Message)
+	if !ok {
+		return errNotAProto
+	}
+	// check if message has field protoFieldMessage and is of kind string
+	messageStringField := reqMessage.ProtoReflect().Descriptor().Fields().ByName(protoreflect.Name(protoFieldMessage))
+	if messageStringField == nil {
+		return errFieldNotFound
+	}
+	if messageStringField.Kind() != protoreflect.StringKind {
+		return errFieldNotOfTypeString
+	}
+	reqMessage.ProtoReflect().Set(messageStringField, protoreflect.ValueOfString(valueToSet))
+	return nil
 }

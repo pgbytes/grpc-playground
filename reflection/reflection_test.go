@@ -155,6 +155,48 @@ func TestExtractByProtoReflection(t *testing.T) {
 	}
 }
 
+func TestSetByProtoReflection(t *testing.T) {
+	type fakeRequestWithMessage struct {
+		Message string
+	}
+	testCases := []struct {
+		description    string
+		request        interface{}
+		requestMessage string
+		expectedErr    error
+	}{
+		{
+			description:    "golden case: message set correctly",
+			request:        &echo.EchoRequest{},
+			requestMessage: "test-message-to-set",
+			expectedErr:    nil,
+		},
+		{
+			description:    "failure case: request not a proto message",
+			request:        &fakeRequestWithMessage{},
+			requestMessage: "test-message-to-set",
+			expectedErr:    errNotAProto,
+		},
+		{
+			description:    "failure case: field not found in request",
+			request:        &echo.Message{},
+			requestMessage: "test-message-to-set",
+			expectedErr:    errFieldNotFound,
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			actualErr := setByProtoReflection(tc.request, tc.requestMessage)
+			require.Equal(t, tc.expectedErr, actualErr)
+			if tc.expectedErr == nil {
+				req, ok := tc.request.(*echo.EchoRequest)
+				require.True(t, ok)
+				require.Equal(t, tc.requestMessage, req.Message)
+			}
+		})
+	}
+}
+
 // compiler optimization for benchmark tests
 // according to this: https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go
 var benchMarkResultProto string
