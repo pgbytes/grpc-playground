@@ -201,6 +201,7 @@ func TestSetByProtoReflection(t *testing.T) {
 // according to this: https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go
 var benchMarkResultProto string
 var benchMarkResultProtoBool bool
+var benchmarkResultError error
 
 func BenchmarkExtractByProtoReflection(b *testing.B) {
 	request := &echo.EchoRequest{Message: "3sm5akzqp2u0"}
@@ -213,6 +214,16 @@ func BenchmarkExtractByProtoReflection(b *testing.B) {
 	benchMarkResultProtoBool = actualFound
 }
 
+func BenchmarkSetByProtoReflection(b *testing.B) {
+	request := &echo.EchoRequest{}
+	messageToSet := "test-message-to-set"
+	var actualErr error
+	for i := 0; i < b.N; i++ {
+		actualErr = setByProtoReflection(request, messageToSet)
+	}
+	benchmarkResultError = actualErr
+}
+
 func BenchmarkExtractByReflection(b *testing.B) {
 	request := &echo.EchoRequest{Message: "3sm5akzqp2u0"}
 	var actualMessage string
@@ -222,4 +233,14 @@ func BenchmarkExtractByReflection(b *testing.B) {
 	}
 	benchMarkResultProto = actualMessage
 	benchMarkResultProtoBool = actualFound
+}
+
+func BenchmarkSetByReflection(b *testing.B) {
+	request := &echo.EchoRequest{}
+	messageToSet := "test-message-to-set"
+	var actualErr error
+	for i := 0; i < b.N; i++ {
+		actualErr = setByReflection(request, messageToSet)
+	}
+	benchmarkResultError = actualErr
 }
