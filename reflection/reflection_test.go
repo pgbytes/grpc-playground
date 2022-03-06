@@ -55,6 +55,64 @@ func TestExtractByReflection(t *testing.T) {
 	}
 }
 
+func TestSetByReflection(t *testing.T) {
+	type fakeRequestWithMessage struct {
+		Message string
+	}
+	type fakeRequestWithIntMessage struct {
+		Message int64
+	}
+	type fakeRequestWithUnexportedMessage struct {
+		message int64
+	}
+	type fakeRequestWithoutAnyMessage struct {
+		RequestID string
+	}
+	something := "fake-request-non-struct"
+	testCases := []struct {
+		description    string
+		request        interface{}
+		requestMessage string
+		expectedErr    error
+	}{
+		{
+			description:    "golden case: message set correctly",
+			request:        &fakeRequestWithMessage{},
+			requestMessage: "test-message-to-set",
+			expectedErr:    nil,
+		},
+		{
+			description:    "failure case: request not a struct",
+			request:        &something,
+			requestMessage: "test-message-to-set",
+			expectedErr:    errNotAStruct,
+		},
+		{
+			description:    "failure case: field not found in request",
+			request:        &fakeRequestWithoutAnyMessage{},
+			requestMessage: "test-message-to-set",
+			expectedErr:    errFieldNotFound,
+		},
+		{
+			description:    "failure case: request object does not have field of type string",
+			request:        &fakeRequestWithIntMessage{},
+			requestMessage: "test-message-to-set",
+			expectedErr:    errFieldNotOfTypeString,
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			actualErr := setByReflection(tc.request, tc.requestMessage)
+			require.Equal(t, tc.expectedErr, actualErr)
+			if tc.expectedErr == nil {
+				req, ok := tc.request.(*fakeRequestWithMessage)
+				require.True(t, ok)
+				require.Equal(t, tc.requestMessage, req.Message)
+			}
+		})
+	}
+}
+
 func TestExtractByProtoReflection(t *testing.T) {
 	something := "fake-request-non-struct"
 	testCases := []struct {
